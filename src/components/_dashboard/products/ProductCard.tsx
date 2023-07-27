@@ -36,9 +36,7 @@ export const ShopProductCard = (props: Props): JSX.Element => {
                             position: 'absolute',
                             textTransform: 'uppercase'
                         }}
-                    >
-                        {status}
-                    </Label>
+                    ></Label>
                 )}
                 <ProductImgStyle alt={name} src={cover} />
             </Box>

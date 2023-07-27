@@ -1,31 +1,9 @@
-import { Icon } from '@iconify/react';
 import React, { useRef, useState } from 'react';
-import homeFill from '@iconify/icons-eva/home-fill';
-import personFill from '@iconify/icons-eva/person-fill';
-import settings2Fill from '@iconify/icons-eva/settings-2-fill';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { alpha } from '@material-ui/core/styles';
-import { Button, Box, Divider, MenuItem, Typography, Avatar, IconButton } from '@material-ui/core';
+import { Button, Box, Divider, Typography, Avatar, IconButton } from '@material-ui/core';
 import MenuPopover from '@/components/MenuPopover';
 import account from '@/_mocks_/account';
-
-const MENU_OPTIONS = [
-    {
-        label: 'Home',
-        icon: homeFill,
-        linkTo: '/'
-    },
-    {
-        label: 'EditProfile',
-        icon: personFill,
-        linkTo: '/EditProfile'
-    },
-    {
-        label: 'Settings',
-        icon: settings2Fill,
-        linkTo: '#'
-    }
-];
 
 const AccountPopover = (): JSX.Element => {
     const anchorRef = useRef(null);
@@ -34,6 +12,7 @@ const AccountPopover = (): JSX.Element => {
     const handleOpen = () => {
         setOpen(true);
     };
+
     const handleClose = () => {
         setOpen(false);
     };
@@ -47,10 +26,10 @@ const AccountPopover = (): JSX.Element => {
                     padding: 0,
                     width: 44,
                     height: 44,
+                    transform: 'translateX(-100%)',
                     ...(open && {
                         '&:before': {
                             zIndex: 1,
-
                             width: '100%',
                             height: '100%',
                             borderRadius: '50%',
@@ -60,51 +39,50 @@ const AccountPopover = (): JSX.Element => {
                     })
                 }}
             >
-                <Avatar src={account.photoURL} alt="photoURL" />
+                {account.photoURL ? (
+                    <Avatar src={account.photoURL} alt="photoURL" />
+                ) : (
+                    <Avatar alt="Default Profile" />
+                )}
             </IconButton>
 
             <MenuPopover
                 open={open}
                 onClose={handleClose}
                 anchorEl={anchorRef.current}
-                sx={{ width: 220 }}
+                sx={{ width: 280 }}
             >
-                <Box sx={{ my: 1.5, px: 2.5 }}>
-                    <Typography variant="subtitle1" noWrap>
-                        {account.displayName}
-                    </Typography>
-                    <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
-                        {account.email}
-                    </Typography>
+                <Box sx={{ display: 'flex', alignItems: 'center', px: 2.5, py: 1.5 }}>
+                    {account.photoURL && (
+                        <Avatar src={account.photoURL} alt="photoURL" sx={{ marginRight: 1 }} />
+                    )}
+                    <div>
+                        <Typography variant="subtitle1" noWrap>
+                            {account.displayName || 'ไม่ระบุชื่อ'}
+                        </Typography>
+                        {account.email && (
+                            <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                                {account.email}
+                            </Typography>
+                        )}
+                        {account.position && (
+                            <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                                {account.position}
+                            </Typography>
+                        )}
+                        {account.role && (
+                            <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                                {account.role}
+                            </Typography>
+                        )}
+                    </div>
                 </Box>
 
-                <Divider sx={{ my: 1 }} />
+                <Divider />
 
-                {MENU_OPTIONS.map((option) => (
-                    <MenuItem
-                        key={option.label}
-                        to={option.linkTo}
-                        component={RouterLink}
-                        onClick={handleClose}
-                        sx={{ typography: 'body2', py: 1, px: 2.5 }}
-                    >
-                        <Box
-                            component={Icon}
-                            icon={option.icon}
-                            sx={{
-                                mr: 2,
-                                width: 24,
-                                height: 24
-                            }}
-                        />
-
-                        {option.label}
-                    </MenuItem>
-                ))}
-
-                <Box sx={{ p: 2, pt: 1.5 }}>
-                    <Button fullWidth color="inherit" variant="outlined">
-                        Logout
+                <Box>
+                    <Button component={Link} to="/login">
+                        ออกจากระบบ
                     </Button>
                 </Box>
             </MenuPopover>

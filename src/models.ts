@@ -27,7 +27,8 @@ export interface IAccount {
     displayName: string;
     email: string;
     photoURL: string;
-    role: string | undefined;
+    role: string;
+    position?: string;
 }
 
 export interface IProduct {

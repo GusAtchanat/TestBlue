@@ -1,10 +1,12 @@
-import { filter } from 'lodash';
 import { Icon } from '@iconify/react';
 import { HeaderLabel, IUser } from '@/models';
 import { sentenceCase } from 'change-case';
 import React, { useState } from 'react';
 import plusFill from '@iconify/icons-eva/plus-fill';
 import { Link as RouterLink } from 'react-router-dom';
+import { Typography, Container } from '@material-ui/core';
+import { Link } from 'react-router-dom';
+
 import {
     Card,
     Table,
@@ -12,27 +14,25 @@ import {
     Avatar,
     Button,
     Checkbox,
-    TableRow,
     TableBody,
     TableCell,
-    Container,
-    Typography,
     TableContainer,
-    TablePagination
+    TablePagination,
+    TableRow,
+    TextField
 } from '@material-ui/core';
 import Page from '@/components/Page';
 import Label from '@/components/Label';
 import Scrollbar from '@/components/Scrollbar';
 import SearchNotFound from '@/components/SearchNotFound';
-import { UserListHead, UserListToolbar, UserMoreMenu } from '@/components/_dashboard/user';
 import USER_LIST from '@/_mocks_/user';
 
 const TABLE_HEAD: HeaderLabel[] = [
     { id: 'name', label: 'Name', alignRight: false },
-    { id: 'company', label: 'Company', alignRight: false },
+    { id: 'company', label: 'บริษัท', alignRight: false },
     { id: 'role', label: 'Role', alignRight: false },
-    { id: 'isVerified', label: 'Verified', alignRight: false },
-    { id: 'status', label: 'Status', alignRight: false }
+    { id: 'agework', label: 'อายุงาน', alignRight: false },
+    { id: 'actions', label: 'Actions', alignRight: true }
 ];
 
 function descendingComparator(a, b, orderBy) {
@@ -59,13 +59,18 @@ function applySortFilter(array, comparator, query) {
         return a[1] - b[1];
     });
     if (query) {
-        return filter(
-            array,
+        return array.filter(
             (_user) => _user.name.toLowerCase().indexOf(query.toLowerCase()) !== -1
         );
     }
     return stabilizedThis.map((el) => el[0]);
 }
+
+import UserListToolbar from '@/components/_dashboard/user/UserListToolbar';
+import UserListHead from '@/components/_dashboard/user/UserListHead';
+import UserMoreMenu from '@/components/_dashboard/user/UserMoreMenu';
+
+// ... (previous imports)
 
 const User = (): JSX.Element => {
     const [page, setPage] = useState(0);
@@ -124,32 +129,23 @@ const User = (): JSX.Element => {
 
     const filteredUsers = applySortFilter(USER_LIST, getComparator(order, orderBy), filterName);
 
-    const isUserNotFound = filteredUsers.length === 0;
-
     return (
-        <Page title="User ">
+        <Page title="User">
             <Container>
                 <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
                     <Typography variant="h4" gutterBottom>
                         User
                     </Typography>
-                    <Button
-                        variant="contained"
-                        component={RouterLink}
-                        to="#"
-                        startIcon={<Icon icon={plusFill} />}
-                    >
-                        New User
-                    </Button>
+                    <TextField
+                        label="Search"
+                        variant="outlined"
+                        value={filterName}
+                        onChange={handleFilterByName}
+                        size="small"
+                    />
                 </Stack>
 
                 <Card>
-                    <UserListToolbar
-                        numSelected={selected.length}
-                        filterName={filterName}
-                        onFilterName={handleFilterByName}
-                    />
-
                     <Scrollbar>
                         <TableContainer sx={{ minWidth: 800 }}>
                             <Table>
@@ -165,15 +161,15 @@ const User = (): JSX.Element => {
                                 <TableBody>
                                     {filteredUsers
                                         .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                                        .map((row) => {
+                                        .map((row, index) => {
                                             const {
                                                 id,
                                                 name,
                                                 role,
-                                                status,
                                                 company,
                                                 avatarUrl,
-                                                isVerified
+                                                isVerified,
+                                                ageWork
                                             } = row;
                                             const isItemSelected = selected.indexOf(name) !== -1;
 
@@ -182,18 +178,10 @@ const User = (): JSX.Element => {
                                                     hover
                                                     key={id}
                                                     tabIndex={-1}
-                                                    role="checkbox"
                                                     selected={isItemSelected}
                                                     aria-checked={isItemSelected}
                                                 >
-                                                    <TableCell padding="checkbox">
-                                                        <Checkbox
-                                                            checked={isItemSelected}
-                                                            onChange={(event) =>
-                                                                handleClick(event, name)
-                                                            }
-                                                        />
-                                                    </TableCell>
+                                                    <TableCell align="left">{index + 1}</TableCell>
                                                     <TableCell
                                                         component="th"
                                                         scope="row"
@@ -212,44 +200,26 @@ const User = (): JSX.Element => {
                                                     </TableCell>
                                                     <TableCell align="left">{company}</TableCell>
                                                     <TableCell align="left">{role}</TableCell>
-                                                    <TableCell align="left">
-                                                        {isVerified ? 'Yes' : 'No'}
-                                                    </TableCell>
-                                                    <TableCell align="left">
-                                                        <Label
-                                                            variant="ghost"
-                                                            color={
-                                                                (status === 'banned' && 'error') ||
-                                                                'success'
-                                                            }
-                                                        ></Label>
-                                                    </TableCell>
-
+                                                    <TableCell align="left">{ageWork}</TableCell>
                                                     <TableCell align="right">
-                                                        <UserMoreMenu />
+                                                        <Link to="/dashboard/products">
+                                                            <Button variant="contained">
+                                                                Edit
+                                                            </Button>
+                                                        </Link>
                                                     </TableCell>
                                                 </TableRow>
                                             );
                                         })}
                                     {emptyRows > 0 && (
                                         <TableRow style={{ height: 53 * emptyRows }}>
-                                            <TableCell colSpan={6} />
+                                            <TableCell colSpan={5} />
                                         </TableRow>
                                     )}
                                 </TableBody>
-                                {isUserNotFound && (
-                                    <TableBody>
-                                        <TableRow>
-                                            <TableCell align="center" colSpan={6} sx={{ py: 3 }}>
-                                                <SearchNotFound searchQuery={filterName} />
-                                            </TableCell>
-                                        </TableRow>
-                                    </TableBody>
-                                )}
                             </Table>
                         </TableContainer>
                     </Scrollbar>
-
                     <TablePagination
                         rowsPerPageOptions={[5, 10, 25]}
                         component="div"

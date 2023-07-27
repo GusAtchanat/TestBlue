@@ -18,32 +18,48 @@ const sidebarConfig: NavItemConfig[] = [
         icon: getIcon(pieChart2Fill)
     },
     {
-        title: 'Leave',
+        title: 'User Settings',
         path: '/dashboard/user',
         icon: getIcon(peopleFill)
     },
     {
-        title: 'Inform',
+        title: 'Role',
         path: '/dashboard/products',
         icon: getIcon(shoppingBagFill)
     },
     {
-        title: 'Improving work attendance',
-        path: '/dashboard/blog',
+        title: 'Department',
+        path: '/404',
         icon: getIcon(fileTextFill)
     },
     {
-        title: 'Public Holiday',
-        path: '/login',
+        title: 'Companies',
+        path: '/404',
         icon: getIcon(lockFill)
     },
     {
-        title: 'Leave Policy',
-        path: '/register',
+        title: 'Leave Type',
+        path: '',
         icon: getIcon(personAddFill)
     },
     {
-        title: 'Not found',
+        title: 'Public Holidays',
+        path: '/404',
+        icon: getIcon(alertTriangleFill)
+    },
+
+    {
+        title: 'Time in',
+        path: '/404',
+        icon: getIcon(alertTriangleFill)
+    },
+    {
+        title: 'Leave Policy',
+        path: '/404',
+        icon: getIcon(alertTriangleFill)
+    },
+    {
+        title: 'report',
         path: '/404',
         icon: getIcon(alertTriangleFill)
     }

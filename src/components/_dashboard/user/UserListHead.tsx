@@ -23,13 +23,7 @@ const UserListHead = (props: Props): JSX.Element => {
     return (
         <TableHead>
             <TableRow>
-                <TableCell padding="checkbox">
-                    <Checkbox
-                        indeterminate={numSelected > 0 && numSelected < rowCount}
-                        checked={rowCount > 0 && numSelected === rowCount}
-                        onChange={onSelectAllClick}
-                    />
-                </TableCell>
+                <TableCell></TableCell>
                 {headLabel.map((headCell) => (
                     <TableCell
                         key={headCell.id}

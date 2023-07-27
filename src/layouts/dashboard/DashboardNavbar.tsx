@@ -17,8 +17,8 @@ const APPBAR_DESKTOP = 64;
 const RootStyle = styled(AppBar)(({ theme }) => ({
     boxShadow: 'none',
     backdropFilter: 'blur(6px)',
-    WebkitBackdropFilter: 'blur(6px)', // Fix on Mobile
-    backgroundColor: 'blueviolet', // เปลี่ยนสีพื้นหลังเป็นสีฟ้าที่ต้องการ
+    WebkitBackdropFilter: 'blur(6px)',
+    backgroundColor: 'blueviolet',
     [theme.breakpoints.up('lg')]: {
         width: `calc(100% - ${DRAWER_WIDTH + 1}px)`
     }

@@ -5,7 +5,8 @@ const account: IAccount = {
     displayName: 'แจ็คสัน หวัง',
     email: 'Jackson@teamwong.com',
     photoURL: Avatar,
-    role: 'Employee'
+    role: 'Employee',
+    position: 'Some Position'
 };
 
 export default account;

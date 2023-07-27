@@ -22,9 +22,9 @@ const LoginForm = (): JSX.Element => {
 
     const LoginSchema = Yup.object().shape({
         email: Yup.string()
-            .email('Email ต้องเป็นที่อยู่อีเมลที่ถูกต้อง')
-            .required('กรุณาระบุอีเมล'),
-        password: Yup.string().required('กรุณาระบุรหัสผ่าน')
+            .email('Email must be a valid email address')
+            .required('Please enter your email'),
+        password: Yup.string().required('Please enter your password')
     });
 
     const formik = useFormik({
@@ -51,9 +51,9 @@ const LoginForm = (): JSX.Element => {
                 <Stack spacing={3}>
                     <TextField
                         fullWidth
-                        autoComplete="username"
+                        autoComplete="email"
                         type="email"
-                        label="อีเมล/ชื่อผู้ใช้"
+                        label="Email / Username"
                         {...getFieldProps('email')}
                         error={Boolean(touched.email && errors.email)}
                         helperText={touched.email && errors.email}
@@ -61,9 +61,9 @@ const LoginForm = (): JSX.Element => {
 
                     <TextField
                         fullWidth
-                        autoComplete="current-password"
+                        autoComplete="off"
                         type={showPassword ? 'text' : 'password'}
-                        label="รหัสผ่าน"
+                        label="Password"
                         {...getFieldProps('password')}
                         InputProps={{
                             endAdornment: (
@@ -85,8 +85,6 @@ const LoginForm = (): JSX.Element => {
                     justifyContent="space-between"
                     sx={{ my: 5 }}
                 >
-                    {/* เพิ่มคอมโพเนนต์หรือเนื้อหาที่คุณต้องการเพิ่มเติมที่นี่ */}
-
                     <LoadingButton
                         fullWidth
                         size="large"
@@ -95,7 +93,7 @@ const LoginForm = (): JSX.Element => {
                         loading={isSubmitting}
                         color="primary"
                     >
-                        เข้าสู่ระบบ
+                        Login
                     </LoadingButton>
                 </Stack>
             </Form>

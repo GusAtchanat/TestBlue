@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { styled } from '@material-ui/core/styles';
 import { Card, Stack, Container, Typography, Button } from '@material-ui/core';
+
 import { LoginForm } from '@/components/authentication/login';
 import ProfileImage from '@/assets/images/avatar_default.png';
 import EditProFileForm from '@/components/authentication/login/EditProFileForm';
@@ -10,7 +11,7 @@ const RootStyle = styled('div')(({ theme }) => ({
     minHeight: '100vh',
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'flex-end' // เรียง Card ไปอยู่ด้านขวา
 }));
 
 const ProfileCardStyle = styled(Card)(({ theme }) => ({
